@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "APPINSIGHTS_INSTRUMENTATIONKEY": "",
+    "AzureWebJobsStorage": "",
+    "AzureWebJobsDashboard": "",
+    "AzureWebJobsServiceBus": "",
+    "ServiceBus_QueueName": "younited.benchmark/messages"
+  }
+}

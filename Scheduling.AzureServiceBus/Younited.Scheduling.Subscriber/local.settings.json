@@ -1,0 +1,8 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "<Connection string to your Azure storage, which is required by Azure Functions.>",
+    "AzureWebJobsServiceBus": "<Connection string to your Azure service bus namespace.>",
+    "QueueName": "pending_tasks"
+  }
+}

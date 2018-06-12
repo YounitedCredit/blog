@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 
@@ -11,6 +12,11 @@ namespace Younited.Scheduling.Publisher
     public static class Program
     {
         public static void Main(string[] args)
+        {
+            MainAsync().GetAwaiter().GetResult();
+        }
+
+        private static async Task MainAsync()
         {
             try
             {
@@ -35,7 +41,7 @@ namespace Younited.Scheduling.Publisher
                     var message = new Message(body);
                     var scheduleEnqueueTimeUtc = DateTimeOffset.Now.AddMinutes(1);
 
-                    queueClient.ScheduleMessageAsync(message, scheduleEnqueueTimeUtc);
+                    await queueClient.ScheduleMessageAsync(message, scheduleEnqueueTimeUtc);
 
                     messageNumber++;
                 }

@@ -1,4 +1,4 @@
-using System.Linq;
+using NSubstitute;
 using Xunit;
 
 namespace DataGenerator.Tests
@@ -8,16 +8,19 @@ namespace DataGenerator.Tests
         [Theory]
         [InlineData(4)]
         [InlineData(9)]
-        public void Should_Create_X_Purchases_When_Called(int expectedCount)
+        public void Should_Create_X_Purchases_Using_Faker(int expectedCount)
         {
             // Arrange.
-            var purchaseBuilder = new PurchaseBuilder();
+            var purchaseFaker = Substitute.For<IPurchaseFaker>();
+
+            var purchaseBuilder = new PurchaseBuilder(purchaseFaker);
 
             // Act.
-            var actual = purchaseBuilder.Build(expectedCount);
+            purchaseBuilder.Build(expectedCount);
 
             // Assert.
-            Assert.Equal(expectedCount, actual.Count);
+            purchaseFaker.Received(expectedCount).BuildFake();
+
         }
     }
 }

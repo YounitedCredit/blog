@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace DataGenerator
 {
-    public class Program
+    public static class Program
     {
         private static async Task Main()
         {
@@ -30,17 +31,15 @@ namespace DataGenerator
             throw new NotImplementedException();
         }
 
-        private static void ConfigureServices(ServiceCollection serviceCollection, IConfiguration configuration)
-        {
-            ConfigureBatch(serviceCollection, configuration);
-        }
-
-        public static void ConfigureBatch(ServiceCollection serviceCollection, IConfiguration configuration)
+        public static void ConfigureServices(ServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection.TryAddSingleton(new CosmosClientBuilder(configuration.GetConnectionString("CosmosDb"))
-                                                    .WithConnectionModeDirect()
-                                                    .Build()
-                                                    .GetDatabase("Store"));
+                                              .WithConnectionModeDirect()
+                                              .Build()
+                                              .GetDatabase("Store"));
+
+            serviceCollection.AddTransient<PurchaseBuilder>();
+            serviceCollection.AddTransient<IPurchaseFaker, PurchaseFaker>();
         }
     }
 }

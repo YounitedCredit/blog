@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+#
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{F43797C7-95F7-45C4-A346-CB6574CEDD08}"
+ProjectSection(SolutionItems) = preProject
+	readme.md = readme.md
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{43F57255-4F4D-421D-8348-9C10D7835CDC}"
+ProjectSection(SolutionItems) = preProject
+	.gitignore = .gitignore
+EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGenerator", "DataGenerator\DataGenerator.csproj", "{6904757A-7B03-4219-BE95-DE47AEAB0232}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGenerator.Tests", "DataGenerator.Tests\DataGenerator.Tests.csproj", "{A3CEE273-CD43-440E-B17C-C0311939D027}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6904757A-7B03-4219-BE95-DE47AEAB0232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6904757A-7B03-4219-BE95-DE47AEAB0232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6904757A-7B03-4219-BE95-DE47AEAB0232}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6904757A-7B03-4219-BE95-DE47AEAB0232}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3CEE273-CD43-440E-B17C-C0311939D027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3CEE273-CD43-440E-B17C-C0311939D027}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3CEE273-CD43-440E-B17C-C0311939D027}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3CEE273-CD43-440E-B17C-C0311939D027}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

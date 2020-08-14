@@ -16,6 +16,7 @@ namespace DataGenerator
 
         public async Task CreatePurchaseDocumentAsync(Purchase purchase)
         {
-            await _container.CreateItemAsync(purchase, new PartitionKey(purchase.FictionalArticleNumber.ToString()));        }
+            await _container.CreateItemAsync(purchase, new PartitionKey(purchase.FictionalArticleNumber.ToString()));
+        }
     }
 }

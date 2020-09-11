@@ -8,6 +8,8 @@ namespace DataGenerator.Data
     public class Repository
     {
         private readonly Database _database;
+
+        public const string DatabaseName = "Store";
         public const string PurchasesContainerName = "Purchases";
         public const string CustomersContainerName = "Customers";
 

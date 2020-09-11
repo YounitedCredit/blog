@@ -19,16 +19,16 @@ namespace DataGenerator
         /// <summary>
         /// Generate test data to play with Cosmos Db Change Feed
         /// </summary>
-        /// <param name="command">send an 'init' or 'reset' command</param>
+        /// <param name="command">send an 'init', 'feed', or 'reset' command</param>
         /// <returns></returns>
         private static async Task<int> Main(string command)
         {
-            if (string.IsNullOrEmpty(command) || !new []{ "init", "reset"}.Contains(command))
+            if (string.IsNullOrEmpty(command) || !new []{ "init", "feed", "reset"}.Contains(command))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
 
                 Console.WriteLine("The --command value is missing. Please retry with the right argument.");
-                Console.WriteLine("Expecting \"init\" or \"reset\" ");
+                Console.WriteLine("Expecting \"init\", \"feed\" or \"reset\" ");
 
                 Console.ResetColor();
                 return ExistCode_ErrorBadArguments;
@@ -50,9 +50,30 @@ namespace DataGenerator
             await ConfigureServices(serviceCollection, configuration);
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
-            await InitAsync(serviceProvider);
 
+            if (command == "init")
+            {
+                await InitAsync(serviceProvider);
+            }
+            if(command == "feed")
+            {
+                await FeedAsync(serviceProvider);
+            }
             return ExitCode_Success;
+        }
+
+        private static async Task FeedAsync(ServiceProvider serviceProvider)
+        {
+            var purchases = serviceProvider.GetService<PurchaseBuilder>().Build(10);
+
+            var repository = serviceProvider.GetService<Repository>();
+
+            foreach (var purchase in purchases)
+            {
+                await repository.CreatePurchaseDocumentAsync(purchase);
+            }
+
+            Console.WriteLine("Done feeding Purchases to Store Database");
         }
 
         private static async Task InitAsync(ServiceProvider serviceProvider)
@@ -81,11 +102,11 @@ namespace DataGenerator
                          .WithConnectionModeDirect()
                          .Build();
 
-            await client.GetDatabase("Store").DeleteAsync();
+            await client.GetDatabase(Repository.DatabaseName).DeleteAsync();
 
-            await client.CreateDatabaseIfNotExistsAsync("Store", 400);
-            await client.GetDatabase("Store").CreateContainerIfNotExistsAsync(Repository.CustomersContainerName, "/id");
-            await client.GetDatabase("Store").CreateContainerIfNotExistsAsync(Repository.PurchasesContainerName, "/FictionalArticleNumber");
+            await client.CreateDatabaseIfNotExistsAsync(Repository.DatabaseName, 400);
+            await client.GetDatabase(Repository.DatabaseName).CreateContainerIfNotExistsAsync(Repository.CustomersContainerName, "/id");
+            await client.GetDatabase(Repository.DatabaseName).CreateContainerIfNotExistsAsync(Repository.PurchasesContainerName, "/FictionalArticleNumber");
 
             Console.WriteLine("Done Resetting Store Database");
         }
@@ -95,12 +116,12 @@ namespace DataGenerator
             var client = new CosmosClientBuilder(configuration.GetConnectionString("CosmosDb"))
                        .WithConnectionModeDirect()
                        .Build();
-            await client.CreateDatabaseIfNotExistsAsync("Store", 400);
-            await client.GetDatabase("Store").CreateContainerIfNotExistsAsync(Repository.CustomersContainerName, "/id");
-            await client.GetDatabase("Store").CreateContainerIfNotExistsAsync(Repository.PurchasesContainerName, "/FictionalArticleNumber");
+            await client.CreateDatabaseIfNotExistsAsync(Repository.DatabaseName, 400);
+            await client.GetDatabase(Repository.DatabaseName).CreateContainerIfNotExistsAsync(Repository.CustomersContainerName, "/id");
+            await client.GetDatabase(Repository.DatabaseName).CreateContainerIfNotExistsAsync(Repository.PurchasesContainerName, "/FictionalArticleNumber");
 
             serviceCollection.TryAddSingleton(client
-                                              .GetDatabase("Store"));
+                                              .GetDatabase(Repository.DatabaseName));
 
             serviceCollection.AddTransient<Repository>();
             serviceCollection.AddTransient<PurchaseBuilder>();

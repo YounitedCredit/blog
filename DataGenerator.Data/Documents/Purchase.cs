@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace DataGenerator
+namespace DataGenerator.Data.Documents
 {
     public class Purchase
     {
@@ -9,6 +9,7 @@ namespace DataGenerator
         public string ArticleName { get; set; }
         public Guid CustomerId { get; set; }
         public DateTimeOffset TransactionDate { get; set; }
+
         [JsonProperty("id")]
         public Guid PurchaseId { get; set; }
     }

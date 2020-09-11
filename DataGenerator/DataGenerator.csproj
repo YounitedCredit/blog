@@ -11,6 +11,7 @@
       <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.7" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.7" />
       <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.7" />
+      <PackageReference Include="System.CommandLine.DragonFruit" Version="0.3.0-alpha.20427.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -19,6 +20,10 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DataGenerator.Data\DataGenerator.Data.csproj" />
     </ItemGroup>
     
 </Project>

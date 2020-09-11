@@ -21,6 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\DataGenerator.Data\DataGenerator.Data.csproj" />
       <ProjectReference Include="..\DataGenerator\DataGenerator.csproj" />
     </ItemGroup>
 

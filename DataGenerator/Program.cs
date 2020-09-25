@@ -66,7 +66,7 @@ namespace DataGenerator
         {
             var purchases = serviceProvider.GetService<PurchaseBuilder>().Build(10);
 
-            var repository = serviceProvider.GetService<Repository>();
+            var repository = serviceProvider.GetService<IRepository>();
 
             foreach (var purchase in purchases)
             {
@@ -81,7 +81,7 @@ namespace DataGenerator
             var customers = serviceProvider.GetService<CustomerBuilder>().Build();
             var purchases = serviceProvider.GetService<PurchaseBuilder>().Build(10);
 
-            var repository = serviceProvider.GetService<Repository>();
+            var repository = serviceProvider.GetService<IRepository>();
 
             foreach (var customer in customers)
             {
@@ -113,7 +113,7 @@ namespace DataGenerator
 
         private static async Task ConfigureServices(ServiceCollection serviceCollection, IConfiguration configuration)
         {
-            var client = new CosmosClientBuilder(configuration.GetConnectionString("CosmosDb"))
+            var client = new CosmosClientBuilder(configuration.GetConnectionString("CosmosDBConnection"))
                        .WithConnectionModeDirect()
                        .Build();
             await client.CreateDatabaseIfNotExistsAsync(Repository.DatabaseName, 400);
@@ -123,7 +123,7 @@ namespace DataGenerator
             serviceCollection.TryAddSingleton(client
                                               .GetDatabase(Repository.DatabaseName));
 
-            serviceCollection.AddTransient<Repository>();
+            serviceCollection.AddTransient<IRepository, Repository>();
             serviceCollection.AddTransient<PurchaseBuilder>();
             serviceCollection.AddTransient<CustomerBuilder>();
             serviceCollection.AddTransient<IFaker, Faker>();

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DataGenerator.Data.Documents;
 using DataGenerator.Documents;
@@ -5,7 +7,7 @@ using Microsoft.Azure.Cosmos;
 
 namespace DataGenerator.Data
 {
-    public class Repository
+    public class Repository : IRepository
     {
         private readonly Database _database;
 
@@ -27,6 +29,21 @@ namespace DataGenerator.Data
         public async Task CreateCustomerDocumentAsync(Customer customer)
         {
             await _database.GetContainer(CustomersContainerName).CreateItemAsync(customer, new PartitionKey(customer.Id.ToString()));
+        }
+
+        public async Task AddToCustomerRecentPurchasesAsync(Purchase purchase)
+        {
+            var container = _database.GetContainer(CustomersContainerName);
+
+            var customer = (await container.ReadItemAsync<Customer>(purchase.CustomerId.ToString(),
+                new PartitionKey(purchase.CustomerId.ToString()))).Resource;
+
+            var customerLastPurchases = customer.LastPurchases == null ? new List<Purchase>() : customer.LastPurchases.ToList();
+
+            customerLastPurchases.Add(purchase);
+            customer.LastPurchases = customerLastPurchases;
+
+            container.ReplaceItemAsync(customer, customer.Id.ToString(), new PartitionKey(customer.Id.ToString()));
         }
     }
 }

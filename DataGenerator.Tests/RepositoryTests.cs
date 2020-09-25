@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using DataGenerator.Data;
 using DataGenerator.Data.Documents;
@@ -77,6 +78,42 @@ namespace DataGenerator.Tests
             await containerMock.Received(1).CreateItemAsync(Arg.Any<Customer>(), Arg.Any<PartitionKey>());
             Assert.Equal(expectedCustomer, actualCustomer);
             Assert.StrictEqual(expectPartitionKey, actualPartitionKey);
+        }
+        [Fact]
+        public async Task Should_Add_Recent_Purchases_To_Customer()
+        {
+            // Arrange.
+            // NSubstitute works with virtual and abstract methods too. Not just interface.
+            var databaseFake = Substitute.For<Database>();
+            var containerMock = Substitute.For<Container>();
+            databaseFake.GetContainer(Repository.CustomersContainerName).Returns(containerMock);
+
+            var customer = new Customer
+            {
+                Id = new Guid(),
+                someString = "that",
+                LastPurchases = null
+            };
+
+            var newPurchase = new Purchase
+            {
+                FictionalArticleNumber = Guid.NewGuid(),
+                ArticleName = "ThatItem",
+                CustomerId = Guid.NewGuid(),
+                TransactionDate = new DateTime(2020, 10, 01),
+                PurchaseId = Guid.NewGuid()
+            };
+
+            await containerMock.ReadItemAsync<Customer>(Arg.Is<string>(_ => _ == newPurchase.CustomerId.ToString()),
+                Arg.Is<PartitionKey>(_ => _.ToString() == newPurchase.CustomerId.ToString()));
+
+            // Act.
+            await new Repository(databaseFake).AddToCustomerRecentPurchasesAsync(newPurchase);
+
+            // Assert.
+            await containerMock.Received(1).ReplaceItemAsync(Arg.Is<Customer>(_ => _.LastPurchases.Last().PurchaseId == newPurchase.PurchaseId),
+                Arg.Is<string>(_ => _ == customer.Id.ToString()),
+                Arg.Is<PartitionKey>( _ => _.ToString() == new PartitionKey(customer.Id.ToString()).ToString()));
         }
     }
 }

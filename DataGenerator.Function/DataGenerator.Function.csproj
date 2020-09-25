@@ -4,6 +4,7 @@
         <AzureFunctionsVersion>V3</AzureFunctionsVersion>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
         <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.CosmosDB" Version="3.0.5" />
         <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.9" />
     </ItemGroup>
@@ -18,5 +19,12 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\DataGenerator.Data\DataGenerator.Data.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="app-settings.json">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
     </ItemGroup>
 </Project>

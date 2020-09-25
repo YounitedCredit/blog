@@ -22,6 +22,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\DataGenerator.Data\DataGenerator.Data.csproj" />
+      <ProjectReference Include="..\DataGenerator.Function\DataGenerator.Function.csproj" />
       <ProjectReference Include="..\DataGenerator\DataGenerator.csproj" />
     </ItemGroup>
 

@@ -59,7 +59,6 @@ namespace DataGenerator.Tests
             var expectedCustomer = new Customer
             {
                 Id = new Guid(),
-                someString = "that",
                 LastPurchases = null
             };
             var expectPartitionKey = new PartitionKey(expectedCustomer.Id.ToString());
@@ -91,7 +90,6 @@ namespace DataGenerator.Tests
             var customer = new Customer
             {
                 Id = new Guid(),
-                someString = "that",
                 LastPurchases = null
             };
 

@@ -10,8 +10,6 @@ namespace DataGenerator.Documents
         [JsonProperty("id")]
         public Guid Id;
 
-        public string someString;
-
         public IEnumerable<Purchase> LastPurchases;
     }
 }

@@ -43,7 +43,7 @@ namespace DataGenerator.Data
             customerLastPurchases.Add(purchase);
             customer.LastPurchases = customerLastPurchases;
 
-            container.ReplaceItemAsync(customer, customer.Id.ToString(), new PartitionKey(customer.Id.ToString()));
+            await container.ReplaceItemAsync(customer, customer.Id.ToString(), new PartitionKey(customer.Id.ToString()));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CommandLine.Invocation;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ namespace DataGenerator
                 return ExistCode_ErrorBadArguments;
             }
 
-            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+            var builder = new ConfigurationBuilder().SetBasePath(AppContext.BaseDirectory)
                                                     .AddJsonFile("app-settings.json", optional: false, reloadOnChange: false);
 
             var configuration = builder.Build();

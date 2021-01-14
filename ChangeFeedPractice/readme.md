@@ -1,7 +1,5 @@
 # Requirements
 
-> This example runs on dotnet 5. (still in preview as of today)
-
 Key Package : ```dotnet add package Microsoft.Azure.Cosmos --version 3.12.0```
 
 install [Cosmos Db Emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator?tabs=ssl-netstd21)
